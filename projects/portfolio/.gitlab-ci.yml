@@ -1,0 +1,33 @@
+stages:
+  - build
+  - deploy
+
+front-end-build-job:
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  stage: build
+  image: node:latest
+  script:
+    - cd ghi
+    - npm install
+    - npm run build
+    - cp build/index.html build/404.html
+  artifacts:
+    paths:
+      - ghi/build/
+
+pages:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  dependencies:
+    - front-end-build-job
+  needs:
+    - front-end-build-job
+  script:
+    - mv ghi/build public
+  artifacts:
+    paths:
+      - public
+
+# secret!!!
