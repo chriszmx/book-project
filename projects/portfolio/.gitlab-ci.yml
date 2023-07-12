@@ -25,9 +25,7 @@ pages:
   needs:
     - front-end-build-job
   script:
-    - mv ghi/build public
+    - mv ghi/build/ public
   artifacts:
     paths:
       - public
-
-# secret!!!
